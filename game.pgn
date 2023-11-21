@@ -1,0 +1,33 @@
+[Event "Live Chess"]
+[Site "Chess.com"]
+[Date "2023.10.29"]
+[Round "-"]
+[White "bernismokingteam"]
+[Black "vader0102"]
+[Result "1-0"]
+[CurrentPosition "4k2r/p6p/5p1B/3Q4/3p4/1PP5/P6P/1R3RK1 b - -"]
+[Timezone "UTC"]
+[ECO "B10"]
+[ECOUrl "https://www.chess.com/openings/Caro-Kann-Defense-Goldman-Variation"]
+[UTCDate "2023.10.29"]
+[UTCTime "00:28:03"]
+[WhiteElo "568"]
+[BlackElo "518"]
+[TimeControl "600"]
+[Termination "bernismokingteam won by resignation"]
+[StartTime "00:28:03"]
+[EndDate "2023.10.29"]
+[EndTime "00:41:20"]
+[Link "https://www.chess.com/game/live/82010831866"]
+[WhiteUrl "https://images.chesscomfiles.com/uploads/v1/user/167476139.dd9b71e9.50x50o.09dd3a66f1c3.jpeg"]
+[WhiteCountry "3"]
+[WhiteTitle ""]
+[BlackUrl "https://www.chess.com/bundles/web/images/noavatar_l.84a92436.gif"]
+[BlackCountry "2"]
+[BlackTitle ""]
+
+1. e4 d5 2. Nc3 c6 3. Qf3 e6 4. Nh3 dxe4 5. Nxe4 c5 6. Nhg5 f6 7. Nh3 e5 8. Bc4
+Ne7 9. Qh5+ Ng6 10. b3 Qd4 11. Nxf6+ gxf6 12. Rb1 Bxh3 13. Qxh3 Nf4 14. Qf3 Bh6
+15. Qxb7 Nxg2+ 16. Qxg2 e4 17. c3 Qe5 18. f3 Nc6 19. fxe4 Rd8 20. Bb5 Kf8 21.
+Bxc6 Qe6 22. Bd5 Rxd5 23. d4 cxd4 24. Bxh6+ Ke8 25. O-O Qe5 26. exd5 Qxd5 27.
+Qxd5 1-0
