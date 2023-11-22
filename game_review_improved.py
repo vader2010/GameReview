@@ -1,9 +1,12 @@
+import os
+
 import chess
 import chess.pgn
 from io import StringIO
 from stockfish import Stockfish
 from ansi_colours import AnsiColours as Colour
 from tabulate import tabulate
+import pygame
 
 ################################################# STOCKFISH SETTINGS ###################################################
 fish = Stockfish("/home/michael/PycharmProjects/GameReview/stockfish-ubuntu-x86-64-avx2")
@@ -184,3 +187,68 @@ if not error_encountered:
     san_combined.append([f"{len(san_combined)+1}. ", "0-1"])
 
 print(tabulate(san_combined, ["Move", "White", "Black"]))
+pygame.init()
+scale = pygame.display.Info().current_w/1920
+app = pygame.display.set_mode((650*scale, 512*scale))
+
+def load_piece(name: str):
+    return pygame.transform.scale(pygame.image.load("pieces/" + name), (64*scale, 64*scale)).convert_alpha(), pygame.transform.scale(pygame.image.load(f"pieces/{name.removesuffix('.png')}2.png"), (64*scale, 64*scale)).convert_alpha()
+
+pawn, pawn2 = load_piece("pawn.png")
+knight, knight2 = load_piece("knight.png")
+bishop, bishop2 = load_piece("bishop.png")
+rook, rook2 = load_piece("rook.png")
+queen, queen2 = load_piece("queen.png")
+king, king2 = load_piece("king.png")
+green = pygame.transform.scale(pygame.image.load("green.png"), (64*scale, 64*scale))
+white = pygame.transform.scale(pygame.image.load("white.png"), (64*scale, 64*scale))
+
+def load_annotation(name):
+    return pygame.transform.scale(pygame.image.load(os.path.join("128x", name)), (32*scale, 32*scale))
+
+blunder = load_annotation("blunder_128x.png")
+brilliant = load_annotation("brilliant_128x.png")
+mistake = load_annotation("mistake_128x.png")
+excellent = load_annotation("excellent_128x.png")
+inaccuracy = load_annotation("inaccuracy_128x.png")
+great = load_annotation("great_find_128x.png")
+
+def draw_board():
+    green_square = False
+    for i in range(8):
+        for i2 in range(8):
+            if green_square:
+                app.blit(green, (i2*64*scale, i*64*scale))
+                green_square = False
+            else:
+                app.blit(white, (i2*64*scale, i*64*scale))
+                green_square = True
+        if green_square:
+            green_square = False
+        else:
+            green_square = True
+
+def draw_pieces(board):
+    
+def add_annotation(x, y, name):
+    if name == "bl":
+        app.blit(blunder, (x+(32*scale), y-(32*scale)))
+    if name == "be":
+        app.blit(brilliant, (x + (32 * scale), y - (32 * scale)))
+    if name == "g":
+        app.blit(great, (x + (32 * scale), y - (32 * scale)))
+    if name == "in":
+        app.blit(inaccuracy, (x + (32 * scale), y - (32 * scale)))
+    if name == "m":
+        app.blit(mistake, (x + (32 * scale), y - (32 * scale)))
+    if name == "e":
+        app.blit(excellent, (x + (32 * scale), y - (32 * scale)))
+
+running = True
+while running:
+    app.fill((255, 255, 255))
+    draw_board()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    pygame.display.flip()
