@@ -64,8 +64,10 @@ best_moves = []
 san_move_list = []
 
 n_moves = 0
+moves = []
 for move in opened_pgn.mainline_moves():
     n_moves += 1
+    moves.append(move)
 
 for i, move in enumerate(opened_pgn.mainline_moves()):
     print(f"Calculating Move {i+1}/{n_moves}")
@@ -228,7 +230,33 @@ def draw_board():
         else:
             green_square = True
 
-def draw_pieces(board):
+def draw_pieces(board3):
+    pieces = {
+        "R": rook2,
+        "N": knight2,
+        "P": pawn2,
+        "B": bishop2,
+        "Q": queen2,
+        "K": king2,
+        "r": rook,
+        "n": knight,
+        "p": pawn,
+        "b": bishop,
+        "q": queen,
+        "k": king,
+    }
+
+    x = 0
+    y = 0
+    for i in range(8):
+        for i2 in range(8):
+            if board3.piece_at((i*8)+i2) is not None:
+                square = i * 8 + i2
+                piece = str(board3.piece_at(square)).removesuffix("')").removeprefix("Piece.from_symbol('")
+                app.blit(pieces[piece], (x, y))
+            x += 64*scale
+        y += 64*scale
+        x = 0
     
 def add_annotation(x, y, name):
     if name == "bl":
@@ -244,11 +272,43 @@ def add_annotation(x, y, name):
     if name == "e":
         app.blit(excellent, (x + (32 * scale), y - (32 * scale)))
 
+def calculate_real_move(move: str):
+    move2 = move.removesuffix("')").removeprefix("Move.from_uci('")
+    letters = list("abcdefgh")
+    parts = list(move2)
+    part1 = letters[7-letters.index(parts[0])]
+    part2 = letters[7-letters.index(parts[2])]
+    return str(part1 + parts[1] + part2 + parts[3])
+
+
+def get_coords_from_square(square: str):
+    square = list(square)
+    letters = list("abcdefgh")
+    x = letters.index(square[0])*(64*scale)
+    y = (int(square[1])-0.5)*(64*scale)
+    return x, y
+
+
 running = True
+move_number = 0
+board4 = chess.Board()
+
 while running:
     app.fill((255, 255, 255))
     draw_board()
+    draw_pieces(board4)
+    if move_number > 0:
+        move5 = list(str(moves[move_number-1]).removeprefix("chess.Move.from_uci('").removesuffix("')"))
+        x2, y2 = get_coords_from_square(move5[2] + move5[3])
+        add_annotation(x2, y2, evaluated[move_number-1])
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_LEFT and move_number > 0:
+                board4.pop()
+                move_number -= 1
+            if event.key == pygame.K_RIGHT and move_number < len(san_move_list):
+                move_number += 1
+                board4.push(moves[move_number-1])
     pygame.display.flip()
